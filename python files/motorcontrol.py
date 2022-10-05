@@ -13,16 +13,15 @@ def write_gcode(gcode):
     
 
 def setup():
-    #set reletive positioning mode 
+     
     write_gcode('G91')
-    #disables cold extrusion checking
+    
     write_gcode('M302 S0')
-    #sets a slower speed for the extruders
+    
     
 
 #------------------------------------------------------------------------------------------------------------------------------------------------
 def R():
-    #in the "write_gcode('G0 X1.125 F500')" command, the G0 tells the arduino what kind of command it is(in this case, move a certin axis), and the X1.125 tells the arduino to move the X axis 1.125mm, and F500 is setting the feedrate/speed to 900 mm/sec
     write_gcode('G0 X1 F900')
     write_gcode('G92 X0')
     scramble_moves.append("R")
@@ -70,8 +69,6 @@ def F2():
     scramble_moves.append("F2")
 #------------------------------------------------------------------------------------------------------------------------------------------------
 def B():
-    #switching to exruder 0 with T0 command, idk why it doesnt let you specify the extruder in the command, but whatever
-    #also note i use the G1 command instead of the G0 command. Why do i swich commands, you ask? i have no clue, but it works with G1 so thats what im using
     write_gcode('T0')
     write_gcode('G1 E-1 F900')
     write_gcode('G92 E0')
@@ -125,7 +122,7 @@ def D2():
     write_gcode('G92 E0')
     scramble_moves.append("D2")
 #------------------------------------------------------------------------------------------------------------------------------------------------
-#omg im done that took like 10 mins
+
 
 
 moves = [R, RP, R2, L, LP, L2, F, FP, F2, B, BP, B2, U, UP, U2, D, DP, D2]
@@ -143,11 +140,11 @@ def scramble():
 
 
 write_gcode('G91')
-#disables cold extrusion checking
+
 write_gcode('M302 S0')
 print(connection)
 print(connection.name)
-#making the menu
+
 while True:
     menuchoice = input("Choose something, e")
     if menuchoice == 'scramble':
