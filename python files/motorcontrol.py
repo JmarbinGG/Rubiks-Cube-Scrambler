@@ -70,55 +70,55 @@ def F2():
 #------------------------------------------------------------------------------------------------------------------------------------------------
 def B():
     write_gcode('T0')
-    write_gcode('G1 E-1 F900')
+    write_gcode('G0 E-1 F900')
     write_gcode('G92 E0')
     scramble_moves.append("B")
 
 def BP():
     write_gcode('T0')
-    write_gcode('G1 E1 F900')
+    write_gcode('G0 E1 F900')
     write_gcode('G92 E0')
     scramble_moves.append("B'")
 
 def B2():
     write_gcode('T0')
-    write_gcode('G1 E2 F900')
+    write_gcode('G0 E2 F900')
     write_gcode('G92 E0')
     scramble_moves.append("B2")
 #------------------------------------------------------------------------------------------------------------------------------------------------
 def U():
     write_gcode('T1')
-    write_gcode('G1 E-1 F900')
+    write_gcode('G0 E-1 F900')
     write_gcode('G92 E0')
     scramble_moves.append("U")
 
 def UP():
     write_gcode('T1')
-    write_gcode('G1 E1 F900')
+    write_gcode('G0 E1 F900')
     write_gcode('G92 E0')
     scramble_moves.append("R'")
 
 def U2():
     write_gcode('T1')
-    write_gcode('G1 E2 F900')
+    write_gcode('G0 E2 F900')
     write_gcode('G92 E0')
     scramble_moves.append("U2")
 #------------------------------------------------------------------------------------------------------------------------------------------------
 def D():
     write_gcode('T2')
-    write_gcode('G1 E-1 F700')
+    write_gcode('G0 E-1 F700')
     write_gcode('G92 E0')
     scramble_moves.append("D")
 
 def DP():
     write_gcode('T2')
-    write_gcode('G1 E1 F700')
+    write_gcode('G0 E1 F700')
     write_gcode('G92 E0')
     scramble_moves.append("D'")
 
 def D2():
     write_gcode('T2')
-    write_gcode('G1 E2 F700')
+    write_gcode('G0 E2 F700')
     write_gcode('G92 E0')
     scramble_moves.append("D2")
 #------------------------------------------------------------------------------------------------------------------------------------------------
@@ -126,6 +126,7 @@ def D2():
 
 
 moves = [R, RP, R2, L, LP, L2, F, FP, F2, B, BP, B2, U, UP, U2, D, DP, D2]
+movesAsString = ["R", "R'", "R2", "L", "L'", "L2", "F", "F'", "F2", "B", "B'", "B2", "U", "U'", "U2", "D", "D'", "D2"]
 numofmoves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 
 scramblemoves = random.sample(numofmoves, 17)
@@ -153,6 +154,11 @@ while True:
         scramble_moves.clear()
     elif menuchoice == 'R':
         R()
+    elif menuchoice != "scramble" and menuchoice != ' ':
+         custommoveindex = movesAsString.index(menuchoice)
+         custommoveindex = custommoveindex + 1
+         moves[custommoveindex]()
+                
     elif menuchoice == '':
         connection.close()
         break
