@@ -1,5 +1,6 @@
 
 #importing libraries
+#you need to run "pip install pyserial" for this to work
 import serial
 import time
 import random
@@ -17,7 +18,7 @@ def setup():
     write_gcode('G91')
     #disables cold extrusion preventing
     write_gcode('M302 S0')
-    print("setup worked yay")
+    print("Connected!")
     
     
 
@@ -146,22 +147,22 @@ def menu():
  Type send; GCODE to send gcode, with GCODE being the gcode you want to send\n
  Type scramble to scramble the cube\n
  Type cm; MOVE to do a custom move, with MOVE being the move you want to do, written in standard cube notation\n
- Type help to see this menu again
- Press enter twice to exit the program""" )
+ Type help to see this menu again\n
+ Type disconnect to disconnect from the arduino and exit the program\n""" )
 
    
     
     
 
 
-setup()
+connected = False
 print("A Rubik's Cube Scrambler, Made by JmarbinGG")
 menu()
 #print(connection) #prints the connection for testing
-
-
 #This is the menu
 while True:
+    if not connected:
+        print("Please connect by typing connect. To disconnect, type disconnect")
     menuchoice = input(">")
     if menuchoice == 'scramble':
         scramble()
@@ -170,14 +171,16 @@ while True:
     elif menuchoice.startswith('send;'):
         menuchoiceGCODE = menuchoice.replace('send; ', '')
         write_gcode(menuchoiceGCODE)
-      
     elif menuchoice.startswith("cm;"):
       custommoveindex = menuchoice.replace('cm; ', '')
       custommoveindex = movesAsString.index(custommoveindex)
-      custommoveindex = custommoveindex + 1
       moves[custommoveindex]()
     elif menuchoice == "menu":
         menu()
-    elif menuchoice == '':
+    elif not connected and menuchoice == "connect":
+        setup()
+        connected = True
+    elif connected and menuchoice == 'disconnect':
         connection.close()
+        connected = False
         break
