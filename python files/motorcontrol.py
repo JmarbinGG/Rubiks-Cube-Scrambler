@@ -136,10 +136,13 @@ moves = [R, RP, R2, L, LP, L2, F, FP, F2, B, BP, B2, U, UP, U2, D, DP, D2]
 movesAsString = ["R", "R'", "R2", "L", "L'", "L2", "F", "F'", "F2", "B", "B'", "B2", "U", "U'", "U2", "D", "D'", "D2"] 
 numofmoves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 #generating the scramble, not to be confused with scramble_moves
-scramblemoves = random.sample(numofmoves, 17)
+seventeen_scramblemoves = random.sample(numofmoves, 17)
+eight_scramblemoves = random.sample(numofmoves, 8)
 def scramble():
     #for each item in scramblemoves, execute the functions
-   for i in scramblemoves:
+   for i in seventeen_scramblemoves:
+    moves[i]()
+   for i in eight_scramblemoves:
     moves[i]()
 
 def menu():
@@ -147,6 +150,7 @@ def menu():
  Type send; GCODE to send gcode, with GCODE being the gcode you want to send\n
  Type scramble to scramble the cube\n
  Type cm; MOVE to do a custom move, with MOVE being the move you want to do, written in standard cube notation\n
+ Type mm; MOVES to do multiple moves, with MOVES being the moves you want to do, written in standard cube notation\n
  Type help to see this menu again\n
  Type disconnect to disconnect from the arduino and exit the program\n""" )
 
@@ -173,13 +177,25 @@ while True:
         write_gcode(menuchoiceGCODE)
     elif menuchoice.startswith("cm;"):
       custommoveindex = menuchoice.replace('cm; ', '')
-      custommoveindex = movesAsString.index(custommoveindex)
-      moves[custommoveindex]()
-    elif menuchoice == "menu":
+      if custommoveindex in movesAsString:
+       custommoveindex = movesAsString.index(custommoveindex)
+       moves[custommoveindex]()
+      else:
+        print("Invalid move")
+    elif menuchoice == "help":
         menu()
     elif not connected and menuchoice == "connect":
         setup()
         connected = True
+    elif menuchoice.startswith("mm;"):
+        
+        multipleMovesToBeDone = menuchoice.replace("mm; ", "").split(" ")
+        multipleMovesToBeDoneInNumbers = []
+        for i in multipleMovesToBeDone:
+            i = movesAsString.index(i)
+            multipleMovesToBeDoneInNumbers.append(i)
+        for e in multipleMovesToBeDoneInNumbers:
+            moves[e]()
     elif connected and menuchoice == 'disconnect':
         connection.close()
         connected = False
