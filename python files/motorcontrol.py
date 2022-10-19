@@ -135,11 +135,12 @@ moves = [R, RP, R2, L, LP, L2, F, FP, F2, B, BP, B2, U, UP, U2, D, DP, D2]
 #A list of all the moves as a string
 movesAsString = ["R", "R'", "R2", "L", "L'", "L2", "F", "F'", "F2", "B", "B'", "B2", "U", "U'", "U2", "D", "D'", "D2"] 
 numofmoves = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
-#generating the scramble, not to be confused with scramble_moves
-seventeen_scramblemoves = random.sample(numofmoves, 17)
-eight_scramblemoves = random.sample(numofmoves, 8)
+
 def scramble():
-    #for each item in scramblemoves, execute the functions
+  #generate scramble 
+  seventeen_scramblemoves = random.sample(numofmoves, 17)
+  eight_scramblemoves = random.sample(numofmoves, 8)
+  #execute the scramble 
    for i in seventeen_scramblemoves:
     moves[i]()
    for i in eight_scramblemoves:
